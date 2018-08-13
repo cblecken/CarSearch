@@ -1,0 +1,39 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Resources": {
+    "sampleApplication": {
+      "Type": "AWS::ElasticBeanstalk::Application",
+      "Properties": {
+        "Description": "AWS Safe Demo App"
+      }
+    },
+    "sampleApplicationVersion": {
+      "Type": "AWS::ElasticBeanstalk::ApplicationVersion",
+      "Properties": {
+        "ApplicationName": { "Ref": "sampleApplication" },
+        "Description": "AWS Safe Demo App Version",
+        "SourceBundle": {
+          "S3Bucket": "ret.com",
+          "S3Key": "safe-0.0.1-SNAPSHOT.jar"
+        }
+      }
+    },
+    "sampleConfigurationTemplate": {
+      "Type": "AWS::ElasticBeanstalk::ConfigurationTemplate",
+      "Properties": {
+        "ApplicationName": { "Ref": "sampleApplication" },
+        "Description": "AWS Safe Demo App Configuration Template",
+        "SolutionStackName": "64bit Amazon Linux 2018.03 v2.7.2 running Java 8"
+      }
+    },
+    "sampleEnvironment": {
+      "Type": "AWS::ElasticBeanstalk::Environment",
+      "Properties": {
+        "ApplicationName": { "Ref": "sampleApplication" },
+        "Description": "AWS Safe Demo App Environment",
+        "TemplateName": { "Ref": "sampleConfigurationTemplate" },
+        "VersionLabel": { "Ref": "sampleApplicationVersion" }
+      }
+    }
+  }
+}
